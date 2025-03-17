@@ -10,20 +10,26 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            background: url('./background.jpeg') no-repeat center/cover; /* 替换为维尼背景图URL */
+            background: url('./background.jpg') no-repeat center 30%/cover; /* 调整背景图位置 */
             font-family: 'Comic Sans MS', cursive;
+            padding-top: 80px; /* 增加顶部间距 */
         }
 
         .header {
             text-align: center;
-            color: #FFD700;
+            color: #EFCE7F;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            margin: 20px 0;
+            margin: 0 0 30px;
+
+            p {
+                color: #333;
+            }
         }
 
         .wheel-container {
             position: relative;
-            margin: 20px 0;
+            margin: 20px 0 50px; /* 减少顶部间距 */
+            transform: scale(0.9); /* 适当缩小轮盘 */
         }
 
         .wheel {
@@ -33,16 +39,52 @@
             position: relative;
             overflow: hidden;
             transition: transform 2s ease-out;
+            border: 5px solid #8B4513;
             background: conic-gradient(
-                #FFB6C1 0deg 60deg,    /* 粉色 */
-                #87CEFA 60deg 120deg,  /* 浅蓝 */
-                #98FB98 120deg 180deg, /* 薄荷绿 */
-                #FFD700 180deg 240deg, /* 金色 */
-                #FFA07A 240deg 300deg, /* 橙色 */
-                #DDA0DD 300deg 360deg  /* 紫色 */
+                #FFB6C1 0deg 60deg,
+                #87CEFA 60deg 120deg,
+                #98FB98 120deg 180deg,
+                #FFD700 180deg 240deg,
+                #FFA07A 240deg 300deg,
+                #DDA0DD 300deg 360deg
             );
-            border: 5px solid #8B4513; /* 蜂蜜棕色边框 */
         }
+
+        /* 新增奖项文字样式 */
+        .wheel::after {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            background: transparent;
+            border-radius: 50%;
+            top: 5%;
+            left: 5%;
+        }
+
+        .prize-text {
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            left: 148px;
+            top: 32px;
+            transform-origin: 0 117px;
+            font-size: 25px;
+            font-weight: bold;
+            color: #8B4513;
+        }
+
+        .prize-text span {
+            display: inline-block;
+            transform: rotate(-57deg);
+        }
+
+        .prize-text:nth-child(1) { transform: rotate(30deg); }
+        .prize-text:nth-child(2) { transform: rotate(90deg); }
+        .prize-text:nth-child(3) { transform: rotate(150deg); }
+        .prize-text:nth-child(4) { transform: rotate(210deg); }
+        .prize-text:nth-child(5) { transform: rotate(270deg); }
+        .prize-text:nth-child(6) { transform: rotate(330deg); }
 
         .pointer {
             position: absolute;
@@ -104,7 +146,15 @@
     
     <div class="wheel-container">
         <div class="pointer"></div>
-        <div class="wheel"></div>
+        <div class="wheel">
+            <!-- 新增奖项文字 -->
+            <div class="prize-text"><span>特等奖</span></div>
+            <div class="prize-text"><span>一等奖</span></div>
+            <div class="prize-text"><span>二等奖</span></div>
+            <div class="prize-text"><span>三等奖</span></div>
+            <div class="prize-text"><span>幸运奖</span></div>
+            <div class="prize-text"><span>参与奖</span></div>
+        </div>
     </div>
     <button onclick="startLottery()">戳我抽蜂蜜！</button>
     <div id="resultModal" class="modal">
@@ -123,15 +173,13 @@
             if (isRotating) return;
             isRotating = true;
             
-            // 随机生成中奖结果
-            const resultIndex = Math.floor(Math.random() * prizes.length);
-            const angle = 1440 + (resultIndex * 60 + 30); // 1440度=4圈 + 奖项中心角度
+            // 固定中奖角度（指向特等奖区域中心）
+            const targetAngle = 1440 - 10; // 4圈+30度
             
-            // 开始旋转
-            wheel.style.transform = `rotate(${angle}deg)`;
+            wheel.style.transform = `rotate(${targetAngle}deg)`;
             
             setTimeout(() => {
-                showResult(prizes[resultIndex]);
+                showResult("特等奖");
                 isRotating = false;
             }, 2000);
         }
