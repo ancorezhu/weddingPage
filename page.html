@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小熊维尼蜂蜜大抽奖</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: url('./background.jpeg') no-repeat center/cover; /* 替换为维尼背景图URL */
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .header {
+            text-align: center;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin: 20px 0;
+        }
+
+        .wheel-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .wheel {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            transition: transform 2s ease-out;
+            background: conic-gradient(
+                #FFB6C1 0deg 60deg,    /* 粉色 */
+                #87CEFA 60deg 120deg,  /* 浅蓝 */
+                #98FB98 120deg 180deg, /* 薄荷绿 */
+                #FFD700 180deg 240deg, /* 金色 */
+                #FFA07A 240deg 300deg, /* 橙色 */
+                #DDA0DD 300deg 360deg  /* 紫色 */
+            );
+            border: 5px solid #8B4513; /* 蜂蜜棕色边框 */
+        }
+
+        .pointer {
+            position: absolute;
+            width: 30px;
+            height: 50px;
+            background: #FF4500; /* 蜂蜜罐橙色 */
+            top: -30px;
+            left: 135px;
+            z-index: 1;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        }
+
+        button {
+            margin: 20px;
+            padding: 12px 30px;
+            font-size: 18px;
+            background: linear-gradient(45deg, #FF8C00, #FFD700);
+            color: #8B4513;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .modal {
+            /* 保持原有模态框样式 */
+            background: url('https://example.com/honey-pot.png') no-repeat center/contain; /* 添加蜂蜜罐背景 */
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        /* 新增维尼主题元素 */
+        .honey-text {
+            font-size: 24px;
+            color: #8B4513;
+            text-align: center;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🍯 小熊维尼蜂蜜大抽奖 🍯</h1>
+        <p>快来赢取你的甜蜜礼物！</p>
+    </div>
+    
+    <div class="wheel-container">
+        <div class="pointer"></div>
+        <div class="wheel"></div>
+    </div>
+    <button onclick="startLottery()">戳我抽蜂蜜！</button>
+    <div id="resultModal" class="modal">
+        <h2>中奖结果</h2>
+        <p id="resultText"></p>
+        <button onclick="closeModal()">确定</button>
+    </div>
+
+    <script>
+
+        let isRotating = false;
+        const prizes = ["特等奖"];
+        const wheel = document.querySelector('.wheel');
+
+        function startLottery() {
+            if (isRotating) return;
+            isRotating = true;
+            
+            // 随机生成中奖结果
+            const resultIndex = Math.floor(Math.random() * prizes.length);
+            const angle = 1440 + (resultIndex * 60 + 30); // 1440度=4圈 + 奖项中心角度
+            
+            // 开始旋转
+            wheel.style.transform = `rotate(${angle}deg)`;
+            
+            setTimeout(() => {
+                showResult(prizes[resultIndex]);
+                isRotating = false;
+            }, 2000);
+        }
+
+        function showResult(result) {
+            document.getElementById('resultText').textContent = `恭喜您获得：${result}`;
+            document.getElementById('resultModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').style.display = 'none';
+            wheel.style.transform = 'rotate(0deg)';
+        }
+    </script>
+</body>
+</html>
