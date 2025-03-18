@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>星期三陶陶居抽奖</title>
+    <style>
+      body {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          min-height: 100vh;
+          /* background: url('./background.jpg') no-repeat center 30%/cover; */
+          /* font-family: 'Comic Sans MS', cursive; */
+          overflow: hidden;
+          margin: 0;
+          background-color: #F3F3F3;
+      }
+
+      .bar {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            height: 30px;
+            padding: 8px;
+            .logo {
+                width: 24px;
+                height: 24px;
+                margin: 0 8px;
+                border-radius: 50%;
+                background: url('./logo.jpeg') no-repeat center 30%/cover; /* 调整背景图位置 */
+            }
+          }
+
+      .header {
+          text-align: center;
+          color: #FEF7D9;
+          text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+          margin: 0 0 30px;
+          width: 100%;
+          background: linear-gradient(45deg, #B7110F, #E53E27);
+
+          p {
+              font-size: 19px;
+          }
+
+
+      }
+
+      .container {
+        width: 350px;
+        height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(45deg, #B7110F, #E53E27);
+        border-radius: 5px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      }
+
+      .wheel-container {
+          
+          position: relative;
+          transform: scale(0.9); /* 适当缩小轮盘 */
+          
+      }
+
+      .wheel {
+          width: 300px;
+          height: 300px;
+          border-radius: 50%;
+          position: relative;
+          overflow: hidden;
+          transition: transform 2s ease-out;
+          border: 5px solid #8B4513;
+          background: conic-gradient(
+              #FFB6C1 0deg 60deg,
+              #87CEFA 60deg 120deg,
+              #98FB98 120deg 180deg,
+              #FFD700 180deg 240deg,
+              #FFA07A 240deg 300deg,
+              #DDA0DD 300deg 360deg
+          );
+      }
+
+      /* 新增奖项文字样式 */
+      .wheel::after {
+          content: '';
+          position: absolute;
+          width: 90%;
+          height: 90%;
+          background: transparent;
+          border-radius: 50%;
+          top: 5%;
+          left: 5%;
+      }
+
+      .prize-text {
+          position: absolute;
+          width: 100px;
+          height: 30px;
+          left: 148px;
+          top: 32px;
+          transform-origin: 0 117px;
+          font-size: 25px;
+          font-weight: bold;
+          color: #8B4513;
+      }
+
+      .prize-text span {
+          display: inline-block;
+          transform: rotate(-57deg);
+      }
+
+      .prize-text:nth-child(1) { transform: rotate(30deg); }
+      .prize-text:nth-child(2) { transform: rotate(90deg); }
+      .prize-text:nth-child(3) { transform: rotate(150deg); }
+      .prize-text:nth-child(4) { transform: rotate(210deg); }
+      .prize-text:nth-child(5) { transform: rotate(270deg); }
+      .prize-text:nth-child(6) { transform: rotate(330deg); }
+
+      .pointer {
+          position: absolute;
+          width: 30px;
+          height: 50px;
+          background: #FEF7D9; /* 蜂蜜罐橙色 */
+          top: -30px;
+          left: 139px;
+          z-index: 1;
+          clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+      }
+
+      button {
+          margin: 20px;
+          padding: 12px 30px;
+          font-size: 18px;
+          background: linear-gradient(45deg, #FF8C00, #FFD700);
+          color: #8B4513;
+          border: none;
+          border-radius: 25px;
+          cursor: pointer;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+          transition: transform 0.3s;
+      }
+
+      button:hover {
+          transform: scale(1.05);
+      }
+
+      .modal {
+          /* 保持原有模态框样式 */
+          background: url('https://example.com/honey-pot.png') no-repeat center/contain; /* 添加蜂蜜罐背景 */
+          display: none;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: white;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0,0,0,0.3);
+          text-align: center;
+      }
+
+      /* 新增维尼主题元素 */
+      .honey-text {
+          font-size: 24px;
+          color: #8B4513;
+          text-align: center;
+          margin: 10px 0;
+      }
+
+      .footer {
+        color: #666;
+        font-size: 12px;
+        position: absolute;
+        bottom: 5px;
+        border-top: 1px dotted #ccc;
+        width: 100%;
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 12px;
+            padding-top: 8px;
+            .footer-nav__item {
+                margin: 0 8px;
+            }
+        }
+        .footer-copyright {
+            text-align: center;
+            color: #bfbfc3;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bar">
+      <div class="logo"></div>
+      <div>陶陶居</div>
+    </div>
+    <div class="header">
+      <h1>🍯 星期三陶陶居抽奖 🍯</h1>
+      <p>快来赢取你的甜蜜礼物！</p>
+    </div>
+
+    <div class="container">
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <div class="wheel">
+              <!-- 新增奖项文字 -->
+              <div class="prize-text"><span>特等奖</span></div>
+              <div class="prize-text"><span>一等奖</span></div>
+              <div class="prize-text"><span>二等奖</span></div>
+              <div class="prize-text"><span>三等奖</span></div>
+              <div class="prize-text"><span>幸运奖</span></div>
+              <div class="prize-text"><span>参与奖</span></div>
+            </div>
+          </div>
+    </div>
+    
+    <button onclick="startLottery()">戳我抽大奖！</button>
+
+    <div class="footer">
+        <div class="tee-view footer-nav">
+            <div class="tee-view footer-nav__item">店铺主页</div>
+            <div class="tee-view footer-nav__item">个人中心</div>
+            <div class="tee-view footer-nav__item">关注我们</div>
+            <div class="tee-view footer-nav__item">店铺信息</div>
+        </div>
+       <div class="tee-view footer-copyright">
+        安超人提供技术支持
+        </div>
+    </div>
+
+    <div id="resultModal" class="modal">
+      <h2>中奖结果</h2>
+      <p style="color: red" id="resultText"></p>
+      <p>请联系服务员获得奖品</p>
+      <!-- <button onclick="closeModal()">确定</button> -->
+    </div>
+
+    <script>
+
+      let isRotating = false;
+      const prizes = ["特等奖"];
+      const wheel = document.querySelector('.wheel');
+
+      function startLottery() {
+          if (isRotating) return;
+          isRotating = true;
+
+          // 固定中奖角度（指向特等奖区域中心）
+          const targetAngle = 1440 - 10; // 4圈+30度
+
+          wheel.style.transform = `rotate(${targetAngle}deg)`;
+
+          setTimeout(() => {
+              showResult("特等奖");
+              isRotating = false;
+          }, 2000);
+      }
+
+      function showResult(result) {
+          document.getElementById('resultText').textContent = `恭喜您获得：${result}`;
+          document.getElementById('resultModal').style.display = 'block';
+      }
+
+      function closeModal() {
+          document.getElementById('resultModal').style.display = 'none';
+          wheel.style.transform = 'rotate(0deg)';
+      }
+    </script>
+  </body>
+</html>
